@@ -1,0 +1,188 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "LPC17xx.H"                         /* LPC17xx definitions           */
+#include "GLCD.h"
+#include "GLCD_UTILS.h"
+
+#define __FI        1                        /* Font index 16x24               */
+
+volatile unsigned short lcd_colors[] = { // 16 colors
+    Black,Navy,DarkGreen,DarkCyan,Maroon,Purple,Olive,
+    LightGrey,DarkGrey,Blue,Green,Cyan,Red,Magenta,Yellow,White};
+volatile unsigned short last_color = Navy;
+volatile int last_x0=0, last_y0=0, last_r=1;
+
+void createBoard()   //this fills the entire board with blue squares and removes correct black ones
+{
+	int i,j,h,w,p=0,q=0,b=0;
+	
+	for(w=0; w<19; w++)   //width of board
+	{
+		for(h=0; h<22; h++)  //height of board
+		{
+			last_color = lcd_colors[1];
+			GLCD_SetTextColor(last_color);
+			for (i = p; i < p+10; i++)  
+				for (j = q; j < q+10; j++)
+					GLCD_PutPixel(i,j);
+			
+			if((w==0 && h == 11)) //black out squares in 1st column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==1 && (( (h<4 && h>0) || (h>4 && h<8) || (h==11) || (h>14 && h<21))))  //black out squares in 2nd column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==2 && (((h==1) || (h>2 && h<6) || (h==7) || (h==11) || (h==15) || (h==17) || (h==20))))  //black out squares in 3nd column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==3 && (((h==1) || (h==3) || (h==7) || (h==11) || (h==15) || (h==17) || (h==20))))  //black out squares in 4nd column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==4 && (((h==1) || (h>2 && h<21))))  //black out squares in 5th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==5 && (((h==1) || (h==5) || (h==7) || (h==11) || (h==15) || (h==17) || (h==20))))  //black out squares in 6th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}		
+			if(w==6 && (((h==1) || (h>2 && h<6) || (h>6 && h<14) || (h>14 && h<18) || (h==20))))  //black out squares in 7th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}			
+			if(w==7 && (((h==1) || (h==3) || (h==5) || (h==7) || (h==9) || (h==13) || (h==15) || (h==17) || (h==20))))  //black out squares in 8th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}			
+			if(w==8 && (((h>0 && h<4) || (h>4 && h<8) || (h==7) || (h==9) || (h==11) || (h>12 && h<16) || (h>16 && h<21))))  //black out squares in 8th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==9 && (((h==1) || (h==5) || (h==9) || (h==11) || (h==13) || (h==17))))  //black out squares in 10th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==10 && (((h>0 && h<4) || (h>4 && h<8) || (h==7) || (h==9) || (h==11) || (h>12 && h<16) || (h>16 && h<21))))  //black out squares in 11th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==11 && (((h==1) || (h==3) || (h==5) || (h==7) || (h==9) || (h==13) || (h==15) || (h==17) || (h==20))))  //black out squares in 12th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==12 && (((h==1) || (h>2 && h<6) || (h>6 && h<14) || (h>14 && h<18) || (h==20))))  //black out squares in 13th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==13 && (((h==1) || (h==5) || (h==7) || (h==11) || (h==15) || (h==17) || (h==20))))  //black out squares in 14th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}			
+			if(w==14 && (((h==1) || (h>2 && h<21))))  //black out squares in 15th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==15 && (((h==1) || (h==3) || (h==7) || (h==11) || (h==15) || (h==17) || (h==20))))  //black out squares in 16th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==16 && (((h==1) || (h>2 && h<6) || (h==7) || (h==11) || (h==15) || (h==17) || (h==20))))  //black out squares in 17th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if(w==17 && (( (h<4 && h>0) || (h>4 && h<8) || (h==11) || (h>14 && h<21))))  //black out squares in 18th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			if((w==18 && h == 11)) //black out squares in 19th column
+			{
+				last_color = lcd_colors[0];
+				GLCD_SetTextColor(last_color);
+				for (i = p; i < p+10; i++)  
+					for (j = q; j < q+10; j++)
+						GLCD_PutPixel(i,j);
+			}
+			
+			p+=11;
+		}
+		p=0;
+		q+=11;
+	}
+}
